@@ -8,4 +8,5 @@ type Members struct {
 	Username string             `bson:"username" json:"username"`
 	Email    string             `bson:"email" json:"email"`
 	Role     string             `bson:"role" json:"role"`
+	Status   bool               `bson:"status" json:"status"`
 }
