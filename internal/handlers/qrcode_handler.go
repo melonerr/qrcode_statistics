@@ -13,16 +13,17 @@ func GetQrcodeById(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func CreateQrcode(c *fiber.Ctx) error {
-	var event models.Qrcode
-	if err := c.BodyParser(&event); err != nil {
+	var qrcode models.Qrcode
+	if err := c.BodyParser(&qrcode); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
-	result, err := repositories.CreateQrcode(event)
+	result, err := repositories.CreateQrcode(qrcode)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -42,7 +43,7 @@ func UpdateQrcode(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func DeleteQrcode(c *fiber.Ctx) error {
@@ -51,5 +52,5 @@ func DeleteQrcode(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }

@@ -14,7 +14,7 @@ func GetMemberById(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 // CreateMember handles creating a new member
@@ -52,7 +52,7 @@ func UpdateMember(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func DeleteMember(c *fiber.Ctx) error {
@@ -61,5 +61,5 @@ func DeleteMember(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }

@@ -60,7 +60,7 @@ func GetQrcodeById(id string) (*models.QrcodeRes, error) {
 	}
 	return resData, nil
 }
-func CreateQrcode(event models.Qrcode) (any, error) {
+func CreateQrcode(event models.Qrcode) (*mongo.InsertOneResult, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -104,7 +104,7 @@ func CreateQrcode(event models.Qrcode) (any, error) {
 		Status:   true,
 	}
 
-	event.ID = primitive.NewObjectID()
+	data.ID = primitive.NewObjectID()
 	result, err := qrcodeCollection.InsertOne(ctx, data)
 	if err != nil {
 		log.Println("InsertQrcode Error:", err)

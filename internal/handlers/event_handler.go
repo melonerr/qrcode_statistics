@@ -13,7 +13,7 @@ func GetEventById(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func CreateEvent(c *fiber.Ctx) error {
@@ -51,7 +51,7 @@ func UpdateEvent(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
 
 func DeleteEvent(c *fiber.Ctx) error {
@@ -60,5 +60,5 @@ func DeleteEvent(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
-	return c.Status(fiber.StatusCreated).JSON(result)
+	return c.Status(fiber.StatusOK).JSON(result)
 }
