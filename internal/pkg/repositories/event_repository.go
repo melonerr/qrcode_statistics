@@ -53,7 +53,7 @@ func CreateEvent(event models.Events) (*mongo.InsertOneResult, error) {
 	}
 
 	var User models.Members
-	err = memberCollection.FindOne(ctx, bson.M{"_id": ID}).Decode(&User)
+	err = memberCollection.FindOne(ctx, bson.M{"_id": ID, "status": true}).Decode(&User)
 	if err != nil {
 		return nil, fmt.Errorf("user with ID %v does not exist", event.U_id)
 	}

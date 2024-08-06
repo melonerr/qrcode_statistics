@@ -21,4 +21,10 @@ func Setup(app *fiber.App) {
 	event.Post("", handlers.CreateEvent)
 	event.Put(":id", handlers.UpdateEvent)
 	event.Delete(":id", handlers.DeleteEvent)
+
+	qrcode := apiGroup.Group("/qrcode")
+	qrcode.Get(":id", handlers.GetQrcodeById)
+	qrcode.Post("", handlers.CreateQrcode)
+	qrcode.Put(":id", handlers.UpdateQrcode)
+	qrcode.Delete(":id", handlers.DeleteQrcode)
 }
