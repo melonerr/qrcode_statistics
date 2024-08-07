@@ -12,6 +12,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.5 // indirect
 	github.com/gofiber/storage/mongodb v1.3.9
 	github.com/gofiber/storage/mongodb/v2 v2.0.1 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect

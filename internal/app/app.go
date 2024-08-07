@@ -6,6 +6,7 @@ import (
 	"qrcode_statistics/internal/routes"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func Start() {
@@ -13,7 +14,9 @@ func Start() {
 
 	app := fiber.New()
 
-	middleware.SetupCors(app)
+	app.Use(cors.New(middleware.CorsConfig))
+
+	app.Use(middleware.AuthMiddleware)
 
 	routes.Setup(app)
 

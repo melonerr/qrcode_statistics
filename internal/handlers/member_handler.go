@@ -3,6 +3,7 @@ package handlers
 import (
 	"qrcode_statistics/internal/pkg/models"
 	"qrcode_statistics/internal/pkg/repositories"
+	"qrcode_statistics/internal/pkg/service"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -27,6 +28,7 @@ func CreateMember(c *fiber.Ctx) error {
 	data := models.Members{
 		Token:    user.Token,
 		Username: user.Username,
+		Password: service.GenerateMD5Hash(user.Password),
 		Email:    user.Email,
 		Role:     user.Role,
 		Status:   true,

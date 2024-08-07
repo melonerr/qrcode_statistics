@@ -8,6 +8,7 @@ import (
 
 func Setup(app *fiber.App) {
 	apiGroup := app.Group("/api")
+	apiGroup.Post("/login", handlers.Authen)
 	apiGroup.Get("/health", handlers.Health)
 
 	users := apiGroup.Group("/users")

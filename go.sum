@@ -14,6 +14,8 @@ github.com/gofiber/storage/mongodb v1.3.9 h1:uoFHBuGLWjlNsYFsMZkGxfzpryIq64mfGAU
 github.com/gofiber/storage/mongodb v1.3.9/go.mod h1:HMl4mg6iUWovowiY8SexUnsyeJwZtihB1rlNjLlpIKA=
 github.com/gofiber/storage/mongodb/v2 v2.0.1 h1:IAI/UeLamp/hxQWCbkyQ11FTK1pnFaFbnwCnDrEI4wE=
 github.com/gofiber/storage/mongodb/v2 v2.0.1/go.mod h1:7ZOFzBshzpmQjFaFocmlGJFoUxg8KhsBKd10U97duts=
+github.com/golang-jwt/jwt/v5 v5.2.1 h1:OuVbFODueb089Lh128TAcimifWaLhJwVflnrgM17wHk=
+github.com/golang-jwt/jwt/v5 v5.2.1/go.mod h1:pqrtFR0X4osieyHYxtmOUWsAWrfe1Q5UVIyoH402zdk=
 github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
 github.com/golang/snappy v0.0.4/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
 github.com/google/uuid v1.5.0 h1:1p67kYwdtXjb0gL0BPiP1Av9wiZPo5A8z2cWkTZ+eyU=
