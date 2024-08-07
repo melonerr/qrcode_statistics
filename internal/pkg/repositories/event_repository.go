@@ -14,7 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GetEventById(id string) (*models.Events, error) {
+func GetEventById(id string, uid string) (*models.Events, error) {
 	collection := config.GetCollection("events")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -25,9 +25,8 @@ func GetEventById(id string) (*models.Events, error) {
 		log.Println("Invalid ID:", err)
 		return nil, err
 	}
-
 	var event models.Events
-	err = collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&event)
+	err = collection.FindOne(ctx, bson.M{"_id": objectID, "u_id": uid}).Decode(&event)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			log.Println("No event found with the given ID")
@@ -68,7 +67,7 @@ func CreateEvent(event models.Events) (*mongo.InsertOneResult, error) {
 	return result, nil
 }
 
-func UpdateEvent(id string, event models.Events) (*mongo.UpdateResult, error) {
+func UpdateEvent(id string, event models.Events, uid string) (*mongo.UpdateResult, error) {
 	collection := config.GetCollection("events")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -84,7 +83,7 @@ func UpdateEvent(id string, event models.Events) (*mongo.UpdateResult, error) {
 		"$set": event,
 	}
 
-	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID, "u_id": event.U_id}, update)
+	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID, "u_id": uid}, update)
 	if err != nil {
 		log.Println("Update Error:", err)
 		return nil, err
@@ -92,7 +91,7 @@ func UpdateEvent(id string, event models.Events) (*mongo.UpdateResult, error) {
 
 	return result, nil
 }
-func DeleteEvent(id string) (*mongo.UpdateResult, error) {
+func DeleteEvent(id string, uid string) (*mongo.UpdateResult, error) {
 	// soft delete
 	collection := config.GetCollection("events")
 
@@ -111,7 +110,7 @@ func DeleteEvent(id string) (*mongo.UpdateResult, error) {
 		},
 	}
 
-	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
+	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID, "u_id": uid}, update)
 	if err != nil {
 		log.Println("Delete Error:", err)
 		return nil, err

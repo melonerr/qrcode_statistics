@@ -16,7 +16,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GetQrcodeById(id string) (*models.QrcodeRes, error) {
+func GetQrcodeById(id string, uid string) (*models.QrcodeRes, error) {
 	collection := config.GetCollection("qrcode")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -29,7 +29,7 @@ func GetQrcodeById(id string) (*models.QrcodeRes, error) {
 	}
 
 	var qrcode models.Qrcode
-	err = collection.FindOne(ctx, bson.M{"_id": objectID, "status": true}).Decode(&qrcode)
+	err = collection.FindOne(ctx, bson.M{"_id": objectID, "u_id": uid, "status": true}).Decode(&qrcode)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			log.Println("No event found with the given ID")
@@ -60,28 +60,16 @@ func GetQrcodeById(id string) (*models.QrcodeRes, error) {
 	}
 	return resData, nil
 }
-func CreateQrcode(event models.Qrcode) (*mongo.InsertOneResult, error) {
+func CreateQrcode(event models.Qrcode, uid string) (*mongo.InsertOneResult, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	eventCollection := config.GetCollection("events")
-	memberCollection := config.GetCollection("members")
 	qrcodeCollection := config.GetCollection("qrcode")
-
-	// Validate and convert IDs
-	U_ID, err := primitive.ObjectIDFromHex(event.U_id)
-	if err != nil {
-		return nil, fmt.Errorf("invalid U_id: %s", event.U_id)
-	}
 
 	E_ID, err := primitive.ObjectIDFromHex(event.E_id)
 	if err != nil {
 		return nil, fmt.Errorf("invalid E_id: %s", event.E_id)
-	}
-
-	// Check if user and event exist
-	if err := checkExistence(ctx, memberCollection, U_ID, "user", event.U_id); err != nil {
-		return nil, err
 	}
 
 	if err := checkExistence(ctx, eventCollection, E_ID, "event", event.E_id); err != nil {
@@ -96,7 +84,7 @@ func CreateQrcode(event models.Qrcode) (*mongo.InsertOneResult, error) {
 
 	// Create and insert QR code
 	data := models.Qrcode{
-		U_id:     event.U_id,
+		U_id:     uid,
 		E_id:     event.E_id,
 		Title:    event.Title,
 		Target:   event.Target,
@@ -114,7 +102,7 @@ func CreateQrcode(event models.Qrcode) (*mongo.InsertOneResult, error) {
 	return result, nil
 }
 
-func UpdateQrcode(id string, qrcode models.Qrcode) (*mongo.UpdateResult, error) {
+func UpdateQrcode(id string, qrcode models.Qrcode, uid string) (*mongo.UpdateResult, error) {
 	collection := config.GetCollection("qrcode")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -134,7 +122,7 @@ func UpdateQrcode(id string, qrcode models.Qrcode) (*mongo.UpdateResult, error) 
 		},
 	}
 
-	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
+	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID, "u_id": uid}, update)
 	if err != nil {
 		log.Println("Update Error:", err)
 		return nil, err
@@ -142,7 +130,7 @@ func UpdateQrcode(id string, qrcode models.Qrcode) (*mongo.UpdateResult, error) 
 
 	return result, nil
 }
-func DeleteQrcode(id string) (*mongo.UpdateResult, error) {
+func DeleteQrcode(id string, uid string) (*mongo.UpdateResult, error) {
 	// soft delete
 	collection := config.GetCollection("qrcode")
 
@@ -161,7 +149,7 @@ func DeleteQrcode(id string) (*mongo.UpdateResult, error) {
 		},
 	}
 
-	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
+	result, err := collection.UpdateOne(ctx, bson.M{"_id": objectID, "u_id": uid}, update)
 	if err != nil {
 		log.Println("Delete Error:", err)
 		return nil, err

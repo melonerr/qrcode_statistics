@@ -9,7 +9,8 @@ import (
 
 func GetEventById(c *fiber.Ctx) error {
 	id := c.Params("id")
-	result, err := repositories.GetEventById(id)
+	uid := c.Locals("userID").(string)
+	result, err := repositories.GetEventById(id, uid)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -17,13 +18,14 @@ func GetEventById(c *fiber.Ctx) error {
 }
 
 func CreateEvent(c *fiber.Ctx) error {
+	id := c.Locals("userID").(string)
 	var event models.Events
 	if err := c.BodyParser(&event); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
 	data := models.Events{
-		U_id:       event.U_id,
+		U_id:       id,
 		Title:      event.Title,
 		Detail:     event.Detail,
 		Date_start: event.Date_start,
@@ -41,12 +43,14 @@ func CreateEvent(c *fiber.Ctx) error {
 
 func UpdateEvent(c *fiber.Ctx) error {
 	id := c.Params("id")
+	uid := c.Locals("userID").(string)
+
 	var event models.Events
 	if err := c.BodyParser(&event); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 	}
 
-	result, err := repositories.UpdateEvent(id, event)
+	result, err := repositories.UpdateEvent(id, event, uid)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
@@ -56,7 +60,9 @@ func UpdateEvent(c *fiber.Ctx) error {
 
 func DeleteEvent(c *fiber.Ctx) error {
 	id := c.Params("id")
-	result, err := repositories.DeleteEvent(id)
+	uid := c.Locals("userID").(string)
+
+	result, err := repositories.DeleteEvent(id, uid)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}

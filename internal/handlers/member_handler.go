@@ -10,7 +10,7 @@ import (
 
 // GetMember handles creating a new member
 func GetMemberById(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id := c.Locals("userID").(string)
 	result, err := repositories.GetMemberById(id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
@@ -43,7 +43,7 @@ func CreateMember(c *fiber.Ctx) error {
 }
 
 func UpdateMember(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id := c.Locals("userID").(string)
 	var user models.Members
 	if err := c.BodyParser(&user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
@@ -58,7 +58,7 @@ func UpdateMember(c *fiber.Ctx) error {
 }
 
 func DeleteMember(c *fiber.Ctx) error {
-	id := c.Params("id")
+	id := c.Locals("userID").(string)
 	result, err := repositories.DeleteMember(id)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})

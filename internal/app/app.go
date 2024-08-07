@@ -16,8 +16,6 @@ func Start() {
 
 	app.Use(cors.New(middleware.CorsConfig))
 
-	app.Use(middleware.AuthMiddleware)
-
 	routes.Setup(app)
 
 	app.Listen(":3000")
