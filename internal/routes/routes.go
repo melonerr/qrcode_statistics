@@ -15,6 +15,9 @@ func Setup(app *fiber.App) {
 	apiGroup.Post("/login", handlers.Authen)
 	apiGroup.Get("/health", handlers.Health)
 
+	statistics := apiGroup.Group("/statistics")
+	statistics.Post("", handlers.Statistics)
+
 	apiGroup.Use(jwtware.New(jwtware.Config{
 		SigningKey: jwtware.SigningKey{Key: []byte(os.Getenv("SECRET_KEY"))},
 	}))
@@ -37,6 +40,4 @@ func Setup(app *fiber.App) {
 	qrcode.Put(":id", handlers.UpdateQrcode)
 	qrcode.Delete(":id", handlers.DeleteQrcode)
 
-	statistics := apiGroup.Group("/statistics", middleware.AuthMiddleware)
-	statistics.Post("", handlers.Statistics)
 }

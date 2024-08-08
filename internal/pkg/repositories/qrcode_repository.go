@@ -40,6 +40,7 @@ func GetQrcodeById(id string, uid string) (*models.QrcodeRes, error) {
 	}
 
 	BaseUrl, err := getEnv("APP_URI")
+
 	if err != nil {
 		return nil, err
 	}
