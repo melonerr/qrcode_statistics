@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "66b32faa1226c0695d4836b1"
+  },
+  "qr_id": "66b2f79bae10a428d560ec80",
+  "ip_address": "127.0.0.1",
+  "time_stamp": "1722933320000",
+  "status": true
+},
+{
+  "_id": {
+    "$oid": "66b330691226c0695d4836b2"
+  },
+  "qr_id": "66b2f79bae10a428d560ec80",
+  "ip_address": "127.0.0.0",
+  "time_stamp": "1722933320000",
+  "status": true
+}]

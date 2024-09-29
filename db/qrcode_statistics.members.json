@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "66b2de455a3e44cea4f4e9b9"
+  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+  "username": "melon",
+  "password": "81dc9bdb52d04dc20036dbd8313ed055",
+  "email": "melon@mail.com",
+  "role": "admin",
+  "status": true
+}]
